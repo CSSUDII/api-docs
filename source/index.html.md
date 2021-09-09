@@ -96,7 +96,10 @@ axios(config)
 });
 ```
 
+## Getting a new key
+
 After you have made your account you will be given an api key, if your API key expiers or you need a new one send a GET request to `/v1/auth/me` like so:
+
 ```ruby
 require "uri"
 require "net/http"
@@ -164,6 +167,7 @@ axios(config)
 ```
 
 > This will return a new API key for your account
+
 > We have a WIP backend at: https://github.com/CSSUDII/api-backend/
 
 # Image API
@@ -233,4 +237,3 @@ axios(config)
 ```
 
 > This returns an png image
-
