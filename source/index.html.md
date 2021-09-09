@@ -24,221 +24,142 @@ meta:
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
-
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Coming soon!
 
 # Authentication
 
-> To authorize, use this code:
+> To get an API key you will need to create an account
 
 ```ruby
-require 'kittn'
+require "uri"
+require "net/http"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+url = URI("https://api.cssudii.tk/v1/auth/register")
+
+https = Net::HTTP.new(url.host, url.port)
+https.use_ssl = true
+
+request = Net::HTTP::Get.new(url)
+request["Content-Type"] = "application/x-www-form-urlencoded"
+request.body = "name=your%20name&email=your%20email&password=your%20password"
+
+response = https.request(request)
+puts response.read_body
 ```
 
 ```python
-import kittn
+import http.client
 
-api = kittn.authorize('meowmeowmeow')
+conn = http.client.HTTPSConnection("api.cssudii.tk")
+payload = 'name=your%20name&email=your%20email&password=your%20password'
+headers = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
+conn.request("GET", "/v1/auth/register", payload, headers)
+res = conn.getresponse()
+data = res.read()
+print(data.decode("utf-8"))
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
+wget --no-check-certificate --quiet \
+  --method GET \
+  --timeout=0 \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --body-data 'name=your%20name&email=your%20email&password=your%20password' \
+   'https://api.cssudii.tk/v1/auth/register'
 ```
 
 ```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+var axios = require('axios');
+var qs = require('qs');
+var data = qs.stringify({
+  'name': 'your name',
+  'email': 'your email',
+  'password': 'your password' 
+});
+var config = {
+  method: 'get',
+  url: 'https://api.cssudii.tk/v1/auth/register',
+  headers: { 
+    'Content-Type': 'application/x-www-form-urlencoded'
   },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
 ```
 
-This endpoint retrieves all kittens.
+# Image API
 
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
+## Invert an image
 
 ```ruby
-require 'kittn'
+require "uri"
+require "net/http"
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+url = URI("https://api.cssudii.tk/v1/image/invert?imgUrl=imageurl")
+
+https = Net::HTTP.new(url.host, url.port)
+https.use_ssl = true
+
+request = Net::HTTP::Get.new(url)
+request["x-access-token"] = "your token"
+
+response = https.request(request)
+puts response.read_body
 ```
 
 ```python
-import kittn
+import http.client
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+conn = http.client.HTTPSConnection("api.cssudii.tk")
+payload = ''
+headers = {
+  'x-access-token': 'your token'
+}
+conn.request("GET", "/v1/image/invert?imgUrl=imageurl", payload, headers)
+res = conn.getresponse()
+data = res.read()
+print(data.decode("utf-8"))
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
+wget --no-check-certificate --quiet \
+  --method GET \
+  --timeout=0 \
+  --header 'x-access-token: your token' \
+   'https://api.cssudii.tk/v1/image/invert?imgUrl=imageurl'
 ```
 
 ```javascript
-const kittn = require('kittn');
+var axios = require('axios');
+var qs = require('qs');
+var data = qs.stringify({
+   
+});
+var config = {
+  method: 'get',
+  url: 'https://api.cssudii.tk/v1/image/invert?imgUrl=imageurl',
+  headers: { 
+    'x-access-token': 'your token'
+  },
+  data : data
+};
 
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
 ```
 
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
-
+> This returns an png image
